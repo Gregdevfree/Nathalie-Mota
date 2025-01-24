@@ -1,0 +1,296 @@
+/*
+Theme Name: Nathalie Mota
+Theme URI: https://motaphoto.com
+Author: Goix Grégory
+Author URI: https://motaphoto.com
+Description: thème personnalisé pour le site de Nathalie Mota photographe événementielle.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: Nathalie-Mota
+*/
+
+
+/* Variables et reset */
+:root {
+  --primary-color: #000000;
+  --secondary-color: #FFFFFF;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 1440px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  background-color: var(--secondary-color);
+  font-family: 'Space Mono', monospace;
+}
+
+/* Fonts */
+@font-face {
+  font-display: swap;
+  font-family: 'Space Mono';
+  src: url('assets/fonts/space-mono-v14-latin-regular.woff2') format('woff2'),
+       url('assets/fonts/space-mono-v14-latin-regular.woff') format('woff'),
+       url('assets/fonts/space-mono-v14-latin-regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Poppins';
+  src: url('assets/fonts/poppins-v22-latin-regular.woff2') format('woff2'),
+       url('assets/fonts/poppins-v22-latin-regular.woff') format('woff'),
+       url('assets/fonts/poppins-v22-latin-regular.ttf') format('truetype');
+}
+
+/* Header styles */
+.site-header {
+  width: 100%;
+  height: 80px;
+  box-shadow: 0px 4px 14px 10px #00000008;
+  background-color: var(--secondary-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin: 0 auto; /* Centrer le header */
+}
+
+.main-navigation {
+  display: flex;
+  justify-content: flex-end; 
+}
+
+.container-header {
+  width: 1440px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin-left: 8%;
+  margin-right: 10%;
+}
+
+.site-logo img {
+  width: 260px; /*=équivalence aux 216px dans Figma*/
+  height: auto;
+  position: 0;
+}
+
+#menu-header-menu {
+  display: flex;  
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  margin: 0 auto;
+}
+
+#menu-header-menu li a {
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--primary-color);
+  font-size: 16px;
+  font-weight: 400;
+  transition: color 0.3s ease-in-out;
+}
+
+#menu-header-menu li a:hover {
+  font-weight: 700;
+}
+
+#menu-item-58, #menu-item-59 { margin-left: 46px; }
+
+#hamburger-menu {
+  display: none;
+}
+
+#menu-toggle {
+  display: none;
+}
+
+.site-footer {
+  width: 100%;
+  height: 40px;
+  background-color: var(--secondary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+}
+
+.footer-menu {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 97px;
+}
+
+.footer-menu li a{
+  text-align: center;
+  text-decoration: none;
+  color: var(--primary-color);
+  font-size: 16px;
+  font-weight: 400;
+  transition: color 0.3s ease-in-out;
+}
+.footer-menu li a:hover {
+  font-weight: 700;
+}
+
+.copyright-item {
+  text-align: center;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .site-header {
+    width: 100%;
+    height: 72px;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 4px 4px 0px #00000017;
+  }
+
+  .container-header {
+    width: 100%;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    margin-left: 8%;
+    margin-right: 10%;
+  }
+
+  .site-logo img {
+    width: 166px;
+    height: auto;
+    position: absolute;
+    top: 20px;
+    left: 25px;
+  }
+
+  .main-navigation {
+    display: none;
+  }
+  #menu-header-menu {
+    display: none;
+  }  
+  
+  #hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 19px;
+    position: absolute;
+    top: 25px;
+    right: 40px;
+    cursor: pointer;
+  }
+
+  #hamburger-menu .line {
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+  }
+  /* Lorsque le menu est ouvert, transformez les barres en croix */
+  #hamburger-menu.open .line:nth-child(1) {
+    transform: rotate(45deg);
+    position: relative;
+    top: 8px;
+  }
+
+  #hamburger-menu.open .line:nth-child(2) {
+    opacity: 0;
+  }
+
+  #hamburger-menu.open .line:nth-child(3) {
+    transform: rotate(-45deg);
+    position: relative;
+    top: -8px;
+  }
+
+  #menu-toggle {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #E00000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-out;
+    z-index: 9999;
+    margin-top: -7px;
+  }
+
+  #menu-toggle.open {
+    transform: translateX(0);
+
+  }
+
+  #menu-toggle ul {
+    list-style: none;
+    text-align: center;
+  }
+
+  #menu-toggle li a {
+    color: var(--secondary-color);
+    font-size: 44px;
+    font-weight: 400;
+    text-decoration: none;
+    margin: 10px 0;
+  }
+
+  #menu-toggle > ul:nth-child(1) > li:nth-child(1) { margin-top: -135px; }
+
+  #menu-toggle > ul:nth-child(1) > li:nth-child(2),
+  #menu-toggle > ul:nth-child(1) > li:nth-child(3) { margin-top: 25px; }
+
+  .site-footer {
+    width: 100%;
+    height: 208px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+  }
+
+  .footer-menu {
+    width: 100%;
+    height: 208px;
+    flex-direction: column;
+  }
+
+  #menu-footer-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0 auto;
+    gap: 24px;
+  }
+}
+
