@@ -1,6 +1,4 @@
-<?php
-/**
- * Functions and definitions for my theme.
+<?php /* Functions and definitions for my theme.
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *

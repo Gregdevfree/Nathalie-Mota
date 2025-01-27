@@ -1,3 +1,9 @@
+<?php 
+/**
+ * Template pour le header 
+ */
+ ?>
+
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>

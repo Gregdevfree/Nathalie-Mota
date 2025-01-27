@@ -1,7 +1,7 @@
-<?php
+<?php 
 /**
- * Template pour le footer
- */
+* Template pour le footer 
+*/ 
 ?>
 
 </main>
@@ -21,9 +21,8 @@
             </nav>
         </div>
     </footer>
-<?php
-get_template_part("template-parts/modale");
-?>
+    
+<?php get_template_part('assets/templates_part/contact_modal'); ?>
 
 <?php wp_footer();?>
 
