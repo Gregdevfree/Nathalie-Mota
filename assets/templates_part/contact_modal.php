@@ -1,8 +1,4 @@
-<?php 
-/**
- * Template pour la modale de contact 
- */
-?>
+<!-- Template pour la modale de contact --> 
 
 <div id="contactModal" class="modal">
     <div class="modal-content">

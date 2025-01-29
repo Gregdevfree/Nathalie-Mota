@@ -1,8 +1,4 @@
-<?php 
-/**
-* Template pour le footer 
-*/ 
-?>
+<!-- Template pour le footer -->
 
 </main>
     <footer class="site-footer">
