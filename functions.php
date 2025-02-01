@@ -10,13 +10,17 @@ function nathalie_mota_enqueue_scripts_and_styles() {
     // Enqueue the main stylesheet
     wp_enqueue_style('main-style', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
 
+    // Enqueue jQuery (WordPress l'inclut par défaut, mais il faut s'assurer qu'il est bien chargé)
+    wp_enqueue_script('jquery');
+    
     // Enqueue the custom JavaScript file
     wp_enqueue_script('custom-script', get_template_directory_uri() . '/assets/js/script.js', array(), '1.0', true);
     
 }
 add_action('wp_enqueue_scripts', 'nathalie_mota_enqueue_scripts_and_styles');
 
-// Ajouter la prise en charge des menus et du logo personnalisé dans le thème
+// Ajout de la prise en charge des menus dans l'administration et du logo personnalisé dans le thème
+// et visibles/modifiables dans Apparence / Menus
 function nathalie_mota_setup() {
     // Ajouter la prise en charge des menus
     add_theme_support('menus');

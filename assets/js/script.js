@@ -26,9 +26,10 @@ document.addEventListener('DOMContentLoaded', function () {
   var modal = document.getElementById('contactModal')
   console.log(modal) // Vérifie si l'élément est correctement sélectionné
 
-  // Sélectionner les deux liens CONTACT
+  // Sélectionner les boutons CONTACT
   var btn1 = document.querySelector('#menu-item-59 > a')
   var btn2 = document.querySelector('#menu-toggle ul li:nth-child(3) a')
+  var btn3 = document.getElementById('contactBtn')
 
   // Fonction pour ouvrir la modale
   function openModal(event) {
@@ -42,22 +43,28 @@ document.addEventListener('DOMContentLoaded', function () {
       body.classList.remove('no-scroll')
     }
 
-    // Ouvrir la modale
-    modal.style.display = 'block'
+    // Ouvrir la modale avec la classe show
+    if (modal) {
+      modal.classList.add('show')
+    }
+
+    // Préremplir la référence de la photo dans le champ du formulaire avec JQuery
+    var photoRef = document.getElementById('photo-ref')?.value
+    var referenceInput = document.querySelector('.wpcf7-form .reference')
+    if (photoRef && referenceInput) {
+      referenceInput.value = photoRef
+    }
   }
 
-  // Ajouter la fonction d'ouverture de la modale aux deux boutons
-  if (btn1) {
-    btn1.addEventListener('click', openModal)
-  }
-  if (btn2) {
-    btn2.addEventListener('click', openModal)
-  }
+  // Ajouter la fonction d'ouverture de la modale aux boutons
+  if (btn1) btn1.addEventListener('click', openModal)
+  if (btn2) btn2.addEventListener('click', openModal)
+  if (btn3) btn3.addEventListener('click', openModal)
 
   // Fermer la modale si clic en dehors
   window.addEventListener('click', function (event) {
-    if (event.target == modal) {
-      modal.style.display = 'none'
+    if (event.target === modal) {
+      modal.classList.remove('show')
     }
   })
 
@@ -67,11 +74,30 @@ document.addEventListener('DOMContentLoaded', function () {
     function (event) {
       // Fermer la modale après 3 secondes
       setTimeout(function () {
-        modal.style.display = 'none'
+        modal.classList.remove('show')
         // Rediriger vers la page d'accueil
         window.location.href = '/'
       }, 3000) // 3000 millisecondes = 3 secondes
     },
     false
   )
+
+  // Script pour afficher les miniatures au survol des flèches de navigation
+  const arrows = document.querySelectorAll('.arrow')
+
+  arrows.forEach((arrow) => {
+    arrow.addEventListener('mouseenter', function () {
+      const thumbnailContainer = this.querySelector('.thumbnail-container')
+      if (thumbnailContainer) {
+        thumbnailContainer.style.display = 'block'
+      }
+    })
+
+    arrow.addEventListener('mouseleave', function () {
+      const thumbnailContainer = this.querySelector('.thumbnail-container')
+      if (thumbnailContainer) {
+        thumbnailContainer.style.display = 'none'
+      }
+    })
+  })
 })

@@ -1,44 +1,97 @@
 <?php
 /**
- * The template for displaying all single-photo posts
- * with the Twenty Twenty-One theme.
+ * Template for displaying all single photos posts
  */
-get_header();
+if ( ! defined( 'ABSPATH' ) ) exit; // Sécurité WordPress
 
-/* Start the Loop */
-while ( have_posts() ) :
-	the_post();
+get_header(); // Inclure l'en-tête du site
 
-	get_template_part( 'template-parts/content/content-single' );
+// Démarrer la boucle WordPress
+if( have_posts() ) : while( have_posts() ) : the_post(); 
+        // Récupérer les valeurs des champs personnalisés
+        $reference = get_post_meta(get_the_ID(), 'reference', true);
+        $type = get_post_meta(get_the_ID(), 'type', true);
+        
+        // Récupérer les taxonomies
+        $categories = get_the_terms(get_the_ID(), 'categorie');
+        $formats = get_the_terms(get_the_ID(), 'format');
+        
+        // Formater les taxonomies en chaîne de caractères
+        $categorie_names = $categories ? implode(', ', wp_list_pluck($categories, 'name')) : 'Non définie';
+        $format_names = $formats ? implode(', ', wp_list_pluck($formats, 'name')) : 'Non défini';
+?>
 
-	if ( is_attachment() ) {
-		// Parent post navigation.
-		the_post_navigation(
-			array(
-				/* translators: %s: Parent post link. */
-				'prev_text' => sprintf( __( '<span class="meta-nav">Published in</span><span class="post-title">%s</span>', 'twentytwentyone' ), '%title' ),
-			)
-		);
-	}
+<div class="single-photo">
+    <article class="photo-article">
+        <div class="photo-desc-pict">
+            <div class="photo-desc">
+                <h2 class="desc-item photo-title"><?php the_title(); ?></h2>
+                <p class="desc-item">RÉFÉRENCE : <?php echo esc_html($reference ?: 'Non définie'); ?></p>
+                <p class="desc-item">CATÉGORIE : <?php echo esc_html($categorie_names); ?></p>
+                <p class="desc-item">FORMAT : <?php echo esc_html($format_names); ?></p>
+                <p class="desc-item">TYPE : <?php echo esc_html($type ?: 'Non défini'); ?></p>
+                <p class="desc-item">ANNÉE : <?php echo get_the_date("Y"); ?></p>
+            </div>
+            <div class="photo-picture">
+                <?php 
+                if ( has_post_thumbnail() ) {
+                    the_post_thumbnail('large'); 
+                } else {
+                    echo '<p>Aucune image définie.</p>';
+                }
+                ?>
+            </div>
+        </div>
+        <div class="photo-bottom">
+            <div class="photo-bottom-left-contact">
+                <p>Cette photo vous intéresse ?</p>
+                <button type="button" class="btn-submit" id="contactBtn">Contact</button>
+                <input type="hidden" id="photo-ref" value="<?php echo esc_attr($reference); ?>">
+            </div>
+            <div class="photo-bottom-right">
+                <?php
+                $prev_post = get_previous_post();
+                $next_post = get_next_post();
+                ?>
+                <div class="photo-arrows">
+                    <?php if ($prev_post): ?>
+                        <a href="<?php echo get_permalink($prev_post->ID); ?>" class="arrow" id="prev-arrow-left">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/fleche-gauche.png" alt="Précédent">
+                            <div class="thumbnail-container">
+                                <?php echo get_the_post_thumbnail($prev_post->ID, 'thumbnail'); ?>
+                                <p><?php echo get_the_title($prev_post->ID); ?></p>
+                            </div>
+                        </a>
+                    <?php else: ?>
+                        <span class="arrow-disabled" id="prev-arrow">Aucune photo</span>
+                    <?php endif; ?>
 
-	// If comments are open or there is at least one comment, load up the comment template.
-	if ( comments_open() || get_comments_number() ) {
-		comments_template();
-	}
+                    <?php if ($next_post): ?>
+                        <a href="<?php echo get_permalink($next_post->ID); ?>" class="arrow" id="next-arrow-right">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/fleche-droite.png" alt="Suivant">
+                            <div class="thumbnail-container">
+                                <?php echo get_the_post_thumbnail($next_post->ID, 'thumbnail'); ?>
+                                <p><?php echo get_the_title($next_post->ID); ?></p>
+                            </div>
+                        </a>
+                    <?php else: ?>
+                        <span class="arrow-disabled" id="next-arrow">Aucun</span>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </article>
+    <div class="other-photos">
+        <h3>VOUS AIMEREZ AUSSI</h3>
+        <div class="photos-bottom-container">
 
-	// Previous/next post navigation.
-	$twentytwentyone_next = is_rtl() ? twenty_twenty_one_get_icon_svg( 'ui', 'arrow_left' ) : twenty_twenty_one_get_icon_svg( 'ui', 'arrow_right' );
-	$twentytwentyone_prev = is_rtl() ? twenty_twenty_one_get_icon_svg( 'ui', 'arrow_right' ) : twenty_twenty_one_get_icon_svg( 'ui', 'arrow_left' );
+        </div>
+    </div>
+</div>
 
-	$twentytwentyone_next_label     = esc_html__( 'Next post', 'twentytwentyone' );
-	$twentytwentyone_previous_label = esc_html__( 'Previous post', 'twentytwentyone' );
-
-	the_post_navigation(
-		array(
-			'next_text' => '<p class="meta-nav">' . $twentytwentyone_next_label . $twentytwentyone_next . '</p><p class="post-title">%title</p>',
-			'prev_text' => '<p class="meta-nav">' . $twentytwentyone_prev . $twentytwentyone_previous_label . '</p><p class="post-title">%title</p>',
-		)
-	);
-endwhile; // End of the loop.
-
-get_footer();
+<?php
+    endwhile;
+endif;
+wp_reset_postdata();
+get_footer(); // Inclure le pied de page du site
+?>
