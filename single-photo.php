@@ -8,28 +8,28 @@ get_header(); // Inclure l'en-tête du site
 
 // Démarrer la boucle WordPress
 if( have_posts() ) : while( have_posts() ) : the_post(); 
-        // Récupérer les valeurs des champs personnalisés
-        $reference = get_post_meta(get_the_ID(), 'reference', true);
-        $type = get_post_meta(get_the_ID(), 'type', true);
-        
-        // Récupérer les taxonomies
-        $categories = get_the_terms(get_the_ID(), 'categorie');
-        $formats = get_the_terms(get_the_ID(), 'format');
-        
-        // Formater les taxonomies en chaîne de caractères
-        $categorie_names = $categories ? implode(', ', wp_list_pluck($categories, 'name')) : 'Non définie';
-        $format_names = $formats ? implode(', ', wp_list_pluck($formats, 'name')) : 'Non défini';
+    // Récupérer les valeurs des champs personnalisés
+    $reference = esc_html(get_post_meta(get_the_ID(), 'reference', true));
+    $type = esc_html(get_post_meta(get_the_ID(), 'type', true));
+    
+    // Récupérer les taxonomies
+    $categories = get_the_terms(get_the_ID(), 'categorie');
+    $formats = get_the_terms(get_the_ID(), 'format');
+    
+    // Formater les taxonomies en chaîne de caractères
+    $categorie_names = $categories ? implode(', ', wp_list_pluck($categories, 'name')) : 'Non définie';
+    $format_names = $formats ? implode(', ', wp_list_pluck($formats, 'name')) : 'Non défini';
 ?>
 
-<div class="single-photo">
+<div class="single-photo-page">
     <article class="photo-article">
         <div class="photo-desc-pict">
             <div class="photo-desc">
                 <h2 class="desc-item photo-title"><?php the_title(); ?></h2>
-                <p class="desc-item">RÉFÉRENCE : <?php echo esc_html($reference ?: 'Non définie'); ?></p>
+                <p class="desc-item">RÉFÉRENCE : <?php echo $reference ?: 'Non définie'; ?></p>
                 <p class="desc-item">CATÉGORIE : <?php echo esc_html($categorie_names); ?></p>
                 <p class="desc-item">FORMAT : <?php echo esc_html($format_names); ?></p>
-                <p class="desc-item">TYPE : <?php echo esc_html($type ?: 'Non défini'); ?></p>
+                <p class="desc-item">TYPE : <?php echo $type ?: 'Non défini'; ?></p>
                 <p class="desc-item">ANNÉE : <?php echo get_the_date("Y"); ?></p>
             </div>
             <div class="photo-picture">
@@ -63,7 +63,7 @@ if( have_posts() ) : while( have_posts() ) : the_post();
                             </div>
                         </a>
                     <?php else: ?>
-                        <span class="arrow-disabled" id="prev-arrow">Aucune photo</span>
+                        <span class="arrow-disabled" id="prev-arrow">Aucune photo plus ancienne</span>
                     <?php endif; ?>
 
                     <?php if ($next_post): ?>
@@ -75,16 +75,30 @@ if( have_posts() ) : while( have_posts() ) : the_post();
                             </div>
                         </a>
                     <?php else: ?>
-                        <span class="arrow-disabled" id="next-arrow">Aucun</span>
+                        <span class="arrow-disabled" id="next-arrow">Aucune photo plus récente</span>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
     </article>
-    <div class="other-photos">
+    
+    <div class="related-photos">
         <h3>VOUS AIMEREZ AUSSI</h3>
-        <div class="photos-bottom-container">
-
+        <div class="related-photos-container">
+            <?php
+            // Récupérer les photos apparentées
+            $related_photos = get_related_photos(get_the_ID(), 'categorie', 2);
+            
+            if ($related_photos->have_posts()) :
+                while ($related_photos->have_posts()) : $related_photos->the_post();
+                    set_query_var('photo', get_post()); // Passer la variable correctement
+                    get_template_part('assets/template_parts/photo_block');
+                endwhile;
+            else:
+                echo '<p>Aucune photo apparentée trouvée.</p>';
+            endif;
+            wp_reset_postdata();
+            ?>
         </div>
     </div>
 </div>

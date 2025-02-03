@@ -20,7 +20,7 @@
     </div>
 </footer><!-- Fin du footer -->
    
-<?php get_template_part('assets/templates_part/contact_modal'); ?>
+<?php get_template_part('assets/template_parts/contact_modal'); ?>
 
 <?php wp_footer(); ?>
 

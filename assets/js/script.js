@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
       modal.classList.add('show')
     }
 
-    // Préremplir la référence de la photo dans le champ du formulaire avec JQuery
+    // Préremplir la référence de la photo dans le champ du formulaire de contact avec JQuery
     var photoRef = document.getElementById('photo-ref')?.value
     var referenceInput = document.querySelector('.wpcf7-form .reference')
     if (photoRef && referenceInput) {

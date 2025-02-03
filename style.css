@@ -25,8 +25,8 @@ Text Domain: Nathalie-Mota
 
 body {
   max-width: 1440px;
-  margin: 0 auto;
   min-height: 100vh;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -86,7 +86,7 @@ h3 {
 p {
   font-family: 'Poppins';
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 500;
   line-height: 21px;
   color: var(--primary-color);
 }
@@ -334,9 +334,9 @@ textarea.wpcf7-form-control {
 }
 
 /*Single-photo*/
-.single-photo {
+.single-photo-page {
   margin-left: 7vw;
-  margin-right: 7vw;  
+  margin-right: 7vw;
 }
 
 .photo-article {
@@ -438,7 +438,6 @@ margin: 6px 0px 0px 0px;
   border: none;
   border-radius: 2px;
   cursor: pointer;
-  margin-top: 15px;
   margin-left: auto;
 }
 
@@ -475,8 +474,8 @@ margin: 6px 0px 0px 0px;
 .thumbnail-container {
   display: none;
   position: absolute;
-  width: 81px;
-  height: 71px;
+  width: 91px;
+  height: 78px;
   background-color: var(--secondary-color);
   padding: 5px;
   z-index: 1000;
@@ -499,6 +498,129 @@ margin: 6px 0px 0px 0px;
   display: block;
 }
 
+/* related photos (photos apparentées) */
+.related-photos h3 {
+  padding-top: 78px;
+}
+
+.related-photos-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 35px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.related-photo-block {
+  width: 564px;
+  height: 495px;
+  overflow: hidden;
+  border: 1px solid var(--secondary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.related-photo-block img {
+  width: 564px;
+  height: 495px;
+  min-width: 100%;
+  min-height: 100%;
+  object-position: center; /* Centrer l'image */
+  object-fit: cover;
+}
+
+/*card-overlay*/
+.related-photo-block {
+  position: relative;
+}
+
+.thumbnail-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #00000099;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.photo-block-image:hover .thumbnail-overlay {
+  opacity: 1;
+}
+
+.overlay-link {
+  margin: 10px;
+  transition: transform 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay-link img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.overlay-link:hover {
+  transform: scale(1.5);
+}
+
+.overlay-link-eye {
+  position: absolute;
+  width: 46px;
+  height: 31.2px;
+  top: 46.75%;
+  left: 45.21%;
+  gap: 0px;
+  opacity: 0px;
+}
+
+.overlay-link-fullscreen {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  top: 2.22%;
+  left: 89%;
+  gap: 0px;
+  border: 1px 0px 0px 0px var(--primary-color);
+  opacity: 0px;
+}
+
+article.related-photo-block p {
+  color: var(--secondary-color);
+}
+
+.photo-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  opacity: 1;
+}
+
+.photo-info-left,
+.photo-info-right {
+  flex: 1;
+  text-align: center;
+}
+
+.photo-info-left {
+  position:absolute;
+  top: 93.33%;
+  left: 3%;
+}
+
+.photo-info-right {
+  position:absolute;
+  top: 93.33%;
+  left: 83.7%;
+}
 
 /* Responsive styles */
 @media (max-width: 768px) {
@@ -813,12 +935,12 @@ margin: 6px 0px 0px 0px;
     border: none;
     border-radius: 2px;
     cursor: pointer;
+    top: -9px;
     margin-top: 15px;
-     /* Position au centre tout en restant aligné avec le texte */
-     margin-left: 0;
-     position: relative;
-     left: 0;
-     transform: none;
+    margin-left: 0;
+    position: relative;
+    left: 0;
+    transform: none;
   }
   
   #contactBtn:hover {
@@ -835,4 +957,44 @@ margin: 6px 0px 0px 0px;
   .photo-bottom-right {
     display: none; 
   }
+  /* photos apparentées dans single-page*/
+  .related-photos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  /*texte vous aimerez aussi*/
+  .related-photos h3 {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+  }
+
+  .related-photos-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .related-photo-block {
+    width: 318px;
+    height: 279px;
+    overflow: hidden;
+    border: 1px solid var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .related-photo-block img {
+    width: auto;
+    height: auto;
+    min-width: 100%;
+    min-height: 100%;
+    object-position: center; /* Centrer l'image */
+  }
+  
 }
