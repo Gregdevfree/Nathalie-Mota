@@ -1,5 +1,11 @@
 <!-- Template-part pour afficher les photos apparentées (related-photos) -->
 <?php
+/**
+ * Template-part : photo block for displaying all single photos posts
+  *
+ * @package Nathalie Mota
+ */
+
 if ( ! defined( 'ABSPATH' ) ) exit; // Sécurité WordPress
 
 if ( isset( $photo ) && $photo instanceof WP_Post ) :

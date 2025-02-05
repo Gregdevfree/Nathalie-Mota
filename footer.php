@@ -1,5 +1,12 @@
-<!-- Template pour le footer -->
-</main><!-- Fin du contenu principal -->
+<?php
+/**
+ * Template name : footer
+  *
+ * @package Nathalie Mota
+ */
+?>
+
+</main>
 
 <footer class="site-footer">
     <div class="container-footer">
@@ -21,6 +28,7 @@
 </footer><!-- Fin du footer -->
    
 <?php get_template_part('assets/template_parts/contact_modal'); ?>
+<?php get_template_part('assets/template_parts/lightbox'); ?>
 
 <?php wp_footer(); ?>
 

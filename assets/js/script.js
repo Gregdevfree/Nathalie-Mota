@@ -100,4 +100,21 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     })
   })
+
+  // Récupération et affichage de l'image aléatoire dans le hero-header
+  const heroHeader = document.getElementById('hero-header')
+
+  if (heroHeader) {
+    fetch('/wp-admin/admin-ajax.php?action=get_random_photo')
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success && data.image) {
+          heroHeader.style.backgroundImage = 'url(' + data.image + ')'
+          heroHeader.classList.remove('loading') // Supprime la classe loading une fois chargé
+        }
+      })
+      .catch((error) =>
+        console.error("Erreur de chargement de l'image:", error)
+      )
+  }
 })

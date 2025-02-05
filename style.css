@@ -33,7 +33,29 @@ body {
   background-color: var(--secondary-color);
   font-family: 'Space Mono', monospace;
 }
-
+@media screen and (max-width: 374px) {
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+    color: #333;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    overflow: hidden;
+  }
+  body * {
+    display: none;
+  }
+  body::before {
+    content: "Votre écran est trop petit pour afficher ce site. Veuillez utiliser un appareil avec une largeur d'écran supérieure à 374px.";
+    display: block;
+    max-width: 90%;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
 /* Fonts */
 @font-face {
   font-display: swap;
@@ -157,6 +179,50 @@ p {
 
 #menu-toggle {
   display: none;
+}
+
+/*Hero-header*/
+.hero-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.hero-header {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  height: 0;
+  padding-bottom: 66.8%; /* Maintain original aspect ratio (962/1440 * 100) */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+}
+
+.hero-header h1 {
+  display: inline-block;
+  width: 73%; /* Proportional width relative to container */
+  max-width: 1050px;
+  text-align: center;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--secondary-color);
+  text-stroke: 2px var(--secondary-color);
+  font-size: 6.68vw; /* Responsive font size */
+  font-size: 96px;
 }
 
 .site-footer {
@@ -567,10 +633,6 @@ margin: 6px 0px 0px 0px;
   max-height: 100%;
 }
 
-.overlay-link:hover {
-  transform: scale(1.5);
-}
-
 .overlay-link-eye {
   position: absolute;
   width: 46px;
@@ -579,6 +641,10 @@ margin: 6px 0px 0px 0px;
   left: 45.21%;
   gap: 0px;
   opacity: 0px;
+}
+
+.overlay-link-eye:hover {
+  transform: scale(1.5);
 }
 
 .overlay-link-fullscreen {
@@ -590,6 +656,11 @@ margin: 6px 0px 0px 0px;
   gap: 0px;
   border: 1px 0px 0px 0px var(--primary-color);
   opacity: 0px;
+  transition: transform 0.3s ease; /* Ajouté pour une transition en douceur */
+}
+
+.overlay-link-fullscreen:hover {
+  transform: rotate(-180deg); /* Ajouté pour l'effet de rotation */
 }
 
 article.related-photo-block p {
@@ -628,7 +699,7 @@ article.related-photo-block p {
   /*Desktop*/
   h1 {
     font-family: 'Space Mono';
-    font-size: 27.59px;
+    font-size: 28px;
     font-weight: 700;
     font-style: italic;
     color: var(--primary-color);
@@ -771,6 +842,18 @@ article.related-photo-block p {
     margin-top: 25px;
   }
   
+  .hero-header {
+    width: 379px;
+    height: 253px;
+  }
+
+  .hero-header h1 {
+    width: 78%; /* Slightly adjusted for mobile */
+    -webkit-text-stroke: 0.86px var(--secondary-color);
+    text-stroke: 0.86px var(--secondary-color);
+    font-size: 28px;
+  }
+
   .site-footer {
     width: 100%;
     height: 208px;

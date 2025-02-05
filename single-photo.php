@@ -1,7 +1,10 @@
 <?php
 /**
- * Template for displaying all single photos posts
+ * Template name : single photo for displaying all photos posts
+  *
+ * @package Nathalie Mota
  */
+
 if ( ! defined( 'ABSPATH' ) ) exit; // Sécurité WordPress
 
 get_header(); // Inclure l'en-tête du site

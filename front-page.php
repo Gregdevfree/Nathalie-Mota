@@ -1,25 +1,46 @@
 <?php
 /**
- * The template for displaying all single posts
+ * Template Name: Front Page
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
- *
- * @package WordPress
- * @subpackage Twenty_Twenty_One
- * @since Twenty Twenty-One 1.0
+ * @package Nathalie Mota
  */
+
+global $post;
 
 get_header();
 
-/* Start the Loop */
-while ( have_posts() ) :
-	the_post();
-	get_template_part( 'template-parts/content/content-page' );
+// Récupérer une image aléatoire parmi les custom post types 'photo' avec la taxonomie 'Formats' => 'paysage'
+$args = array(
+    'post_type'      => 'photo',
+    'posts_per_page' => 1,
+    'orderby'        => 'rand',
+    'tax_query'      => array(
+        array(
+            'taxonomy' => 'format',
+            'field'    => 'slug',
+            'terms'    => 'paysage',
+        ),
+    ),
+);
 
-	// If comments are open or there is at least one comment, load up the comment template.
-	if ( comments_open() || get_comments_number() ) {
-		comments_template();
-	}
-endwhile; // End of the loop.
+$query = new WP_Query($args);
+$background_image = get_template_directory_uri() . '/assets/images/hero-poster-motaphoto.jpeg'; // Image par défaut
 
-get_footer();
+if ($query->have_posts()) {
+        $query->the_post();
+        if (has_post_thumbnail()) {
+            $background_image = get_the_post_thumbnail_url(get_the_ID(), 'full');
+        }
+        wp_reset_postdata();
+}
+?>
+
+<div class="hero-overlay">
+	<div id="hero-header" class="hero-header" style="background-image: url('<?php echo esc_url($background_image); ?>');">
+        <div class="hero-content">
+            <h1 class="hero-title">PHOTOGRAPHE EVENT</h1>
+        </div>
+    </div>
+</div>
+
+<?php get_footer(); ?>
