@@ -43,4 +43,28 @@ if ($query->have_posts()) {
     </div>
 </div>
 
+<!-- Photo Gallery Section -->
+<div class="photo-gallery">
+    <div class="photo-gallery-container">
+        <?php
+        $gallery_args = array(
+            'post_type'      => 'photo',
+            'posts_per_page' => 8,
+            'orderby'        => 'date',
+            'order'          => 'DESC'
+        );
+
+        $gallery_query = new WP_Query($gallery_args);
+
+        if ($gallery_query->have_posts()) :
+            while ($gallery_query->have_posts()) : $gallery_query->the_post();
+                set_query_var('photo', get_post());
+                get_template_part('assets/template_parts/photo_block');
+            endwhile;
+        endif;
+        wp_reset_postdata();
+        ?>
+    </div>
+</div>
+
 <?php get_footer(); ?>
