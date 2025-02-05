@@ -65,6 +65,9 @@ if ($query->have_posts()) {
         wp_reset_postdata();
         ?>
     </div>
+    <div class="load-more-container">
+        <button id="loadmoreBtn" data-page="1">Charger plus</button>
+    </div>
 </div>
 
 <?php get_footer(); ?>

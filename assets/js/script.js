@@ -117,4 +117,38 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error("Erreur de chargement de l'image:", error)
       )
   }
+
+  jQuery(document).ready(function ($) {
+    var page = 1 // Page actuelle
+    var maxPages = 5 // À ajuster si nécessaire
+
+    $('#loadmoreBtn').on('click', function () {
+      page++ // Incrémente le numéro de page
+
+      if (page > maxPages) {
+        $('#loadmoreBtn').hide() // Cache le bouton s'il n'y a plus de photos
+        return
+      }
+
+      $.ajax({
+        type: 'POST',
+        url: ajax_object.ajax_url, // URL AJAX de WordPress
+        data: {
+          action: 'load_more_photos',
+          page: page
+        },
+        beforeSend: function () {
+          $('#loadmoreBtn').text('Chargement...')
+        },
+        success: function (response) {
+          if ($.trim(response) !== '') {
+            $('.photo-gallery-container').append(response)
+            $('#loadmoreBtn').text('Charger plus')
+          } else {
+            $('#loadmoreBtn').hide() // Cache le bouton si plus rien à charger
+          }
+        }
+      })
+    })
+  })
 })

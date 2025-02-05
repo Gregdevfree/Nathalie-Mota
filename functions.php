@@ -100,3 +100,32 @@ function get_random_photo() {
 // Enregistrer les actions AJAX pour les utilisateurs connectés et non connectés
 add_action('wp_ajax_get_random_photo', 'get_random_photo');
 add_action('wp_ajax_nopriv_get_random_photo', 'get_random_photo');
+
+// Fonction pour charger plus de photos avec AJAX
+function load_more_photos() {
+    $paged = isset($_POST['page']) ? $_POST['page'] : 1;
+
+    $gallery_args = array(
+        'post_type'      => 'photo',
+        'posts_per_page' => 8,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+        'paged'          => $paged
+    );
+
+    $gallery_query = new WP_Query($gallery_args);
+
+    if ($gallery_query->have_posts()) :
+        while ($gallery_query->have_posts()) : $gallery_query->the_post();
+            set_query_var('photo', get_post());
+            get_template_part('assets/template_parts/photo_block');
+        endwhile;
+    endif;
+    wp_reset_postdata();
+
+    wp_die();
+}
+
+// Ajout des actions AJAX pour les utilisateurs connectés et non connectés
+add_action('wp_ajax_load_more_photos', 'load_more_photos');
+add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
