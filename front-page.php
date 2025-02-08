@@ -43,6 +43,21 @@ if ($query->have_posts()) {
     </div>
 </div>
 
+<!-- Filter and Sort Section - Dropdown menu -->
+<div class="gallery-filters">
+    <div class="filter-row">
+        <div class="filter-column">
+            <select id="gallery-categories" name="gallery-categories" data-placeholder="CATÉGORIES"></select>
+        </div>
+        <div class="filter-column">
+            <select id="gallery-formats" name="gallery-formats" data-placeholder="FORMATS"></select>
+        </div>
+        <div class="filter-column">
+            <select id="gallery-sort" name="gallery-sort" data-placeholder="TRIER PAR"></select>
+        </div>
+    </div>
+</div>
+
 <!-- Photo Gallery Section -->
 <div class="photo-gallery">
     <div class="photo-gallery-container">

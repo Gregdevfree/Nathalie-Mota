@@ -119,34 +119,155 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   jQuery(document).ready(function ($) {
-    var page = 1 // Page actuelle
-    var maxPages = 5 // À ajuster si nécessaire
+    // Initialize Select2 with configuration to prevent closing
+    function initializeSelect2() {
+      $('.gallery-filters select')
+        .select2({
+          minimumResultsForSearch: -1, // Disable search
+          width: '260px',
+          dropdownAutoWidth: true,
+          dropdownParent: $('.gallery-filters'),
+          closeOnSelect: false // Empêche la fermeture après la sélection
+        })
+        .on('select2:select', function (e) {
+          e.stopPropagation() // Empêche la propagation de l'événement
+          $(this).focus() // Maintient le focus sur le select
+        })
+        .on('select2:open', function (e) {
+          $(this).data('select2').$dropdown.addClass('select2-dropdown--below')
+        })
 
-    $('#loadmoreBtn').on('click', function () {
-      page++ // Incrémente le numéro de page
+      // Gestion manuelle de la fermeture
+      $(document).on('click', function (e) {
+        if (!$(e.target).closest('.select2-container').length) {
+          $('.gallery-filters select').select2('close')
+        }
+      })
+    }
 
-      if (page > maxPages) {
-        $('#loadmoreBtn').hide() // Cache le bouton s'il n'y a plus de photos
-        return
-      }
+    // Function to populate dropdowns dynamically
+    function populateDropdowns() {
+      $.ajax({
+        url: ajax_object.ajax_url,
+        type: 'POST',
+        data: {
+          action: 'get_gallery_filter_options'
+        },
+        success: function (response) {
+          if (response.success) {
+            // Populate Categories dropdown
+            var $categoriesSelect = $('#gallery-categories')
+            $categoriesSelect.empty()
+            $categoriesSelect.append('<option value=""></option>') // Option vide
+            $categoriesSelect.append('<option disabled>&nbsp;</option>') // Séparateur invisible
+
+            response.data.categories.forEach(function (category) {
+              $categoriesSelect.append(
+                `<option value="${category.slug}">${category.name}</option>`
+              )
+            })
+
+            // Populate Formats dropdown
+            var $formatsSelect = $('#gallery-formats')
+            $formatsSelect.empty()
+            $formatsSelect.append('<option value=""></option>') // Option vide
+            $formatsSelect.append('<option disabled>&nbsp;</option>') // Séparateur invisible
+
+            response.data.formats.forEach(function (format) {
+              $formatsSelect.append(
+                `<option value="${format.slug}">${format.name}</option>`
+              )
+            })
+
+            // Populate Sort dropdown
+            var $sortSelect = $('#gallery-sort')
+            $sortSelect.empty()
+            $sortSelect.append('<option value=""></option>') // Option vide
+            $sortSelect.append('<option disabled>&nbsp;</option>') // Séparateur invisible
+            $sortSelect.append(
+              '<option value="DESC">Photo la plus récente</option>'
+            )
+            $sortSelect.append(
+              '<option value="ASC">Photo la plus ancienne</option>'
+            )
+
+            // Initialize Select2
+            initializeSelect2()
+          }
+        }
+      })
+    }
+
+    // Mise à jour de l'initialisation de Select2
+    function initializeSelect2() {
+      $('.gallery-filters select')
+        .select2({
+          minimumResultsForSearch: -1, // Disable search
+          width: '260px',
+          dropdownAutoWidth: true,
+          dropdownParent: $('.gallery-filters'),
+          closeOnSelect: true, // Ferme le dropdown après sélection
+          dropdownPosition: 'below' // Force l'affichage vers le bas
+        })
+        .on('select2:select', function (e) {
+          $(this).select2('close') // Force la fermeture après sélection
+        })
+        .on('select2:open', function () {
+          // Supprimer tout highlight initial
+          setTimeout(function () {
+            $('.select2-results__option--highlighted').removeClass(
+              'select2-results__option--highlighted'
+            )
+          }, 0)
+        })
+    }
+
+    // Function to filter and sort photos
+    function filterPhotos() {
+      var category = $('#gallery-categories').val()
+      var format = $('#gallery-formats').val()
+      var sort = $('#gallery-sort').val()
 
       $.ajax({
+        url: ajax_object.ajax_url,
         type: 'POST',
-        url: ajax_object.ajax_url, // URL AJAX de WordPress
+        data: {
+          action: 'filter_and_sort_photos',
+          category: category,
+          format: format,
+          sort: sort
+        },
+        success: function (response) {
+          if (response.success) {
+            $('.photo-gallery-container').html(response.data)
+          }
+        }
+      })
+    }
+
+    // Populate dropdowns on page load
+    populateDropdowns()
+
+    // Add event listeners for filtering and sorting
+    $('.gallery-filters select').on('change', function (e) {
+      e.stopPropagation() // Empêche la propagation de l'événement
+      filterPhotos()
+    })
+
+    // Add event listener for the "Charger plus" button
+    $('#loadmoreBtn').on('click', function () {
+      var page = parseInt($(this).data('page')) + 1
+      $(this).data('page', page)
+
+      $.ajax({
+        url: ajax_object.ajax_url,
+        type: 'POST',
         data: {
           action: 'load_more_photos',
           page: page
         },
-        beforeSend: function () {
-          $('#loadmoreBtn').text('Chargement...')
-        },
         success: function (response) {
-          if ($.trim(response) !== '') {
-            $('.photo-gallery-container').append(response)
-            $('#loadmoreBtn').text('Charger plus')
-          } else {
-            $('#loadmoreBtn').hide() // Cache le bouton si plus rien à charger
-          }
+          $('.photo-gallery-container').append(response)
         }
       })
     })
