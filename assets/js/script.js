@@ -240,9 +240,27 @@ document.addEventListener('DOMContentLoaded', function () {
         success: function (response) {
           if (response.success) {
             $('.photo-gallery-container').html(response.data)
+            // Déclencher l'événement de filtrage
+            document.dispatchEvent(new Event('photosFiltered'))
+            window.attachLightboxEventListeners()
           }
         }
       })
+    }
+
+    // Function to update lightbox data
+    function updateLightboxData() {
+      photos = []
+      document
+        .querySelectorAll('.overlay-link[data-photo-id]')
+        .forEach((element) => {
+          photos.push({
+            id: element.getAttribute('data-photo-id'),
+            url: element.getAttribute('data-photo-url'),
+            title: element.getAttribute('data-photo-title'),
+            category: element.getAttribute('data-photo-category')
+          })
+        })
     }
 
     // Populate dropdowns on page load
@@ -267,9 +285,22 @@ document.addEventListener('DOMContentLoaded', function () {
           page: page
         },
         success: function (response) {
-          $('.photo-gallery-container').append(response)
+          if (response.trim() !== '') {
+            $('.photo-gallery-container').append(response)
+            updateLightboxData() // Mettre à jour les données des photos dans la lightbox
+            window.attachLightboxEventListeners() // Re-attach event listeners
+          } else {
+            $('#loadmoreBtn').hide() // Masquer le bouton s'il n'y a plus de photos à charger
+          }
         }
       })
     })
+
+    // Initial load of photos
+    updateLightboxData()
+    window.attachLightboxEventListeners() // Initial attachment of event listeners
   })
 })
+
+
+

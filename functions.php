@@ -1,7 +1,6 @@
 <?php
-/* Functions and definitions for my theme.
- *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
+/**
+ * Functions and definitions for my theme.
  *
  * @package Nathalie Mota
  */
@@ -12,12 +11,15 @@ function nathalie_mota_enqueue_scripts_and_styles() {
     wp_enqueue_style('main-style', get_template_directory_uri() . '/style.css', array(), '2.0', 'all');
     wp_enqueue_style('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css');
     wp_enqueue_script('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js', array('jquery'), '4.0.13', true);
-    
+
     // Enqueue jQuery (WordPress l'inclut par défaut, mais il faut s'assurer qu'il est bien chargé)
     wp_enqueue_script('jquery');
-    
+
     // Enqueue the custom JavaScript file
     wp_enqueue_script('custom-script', get_template_directory_uri() . '/assets/js/script.js', array('jquery', 'select2'), '1.0', true);
+
+    // Enqueue the lightbox JavaScript file
+    wp_enqueue_script('lightbox-script', get_template_directory_uri() . '/assets/js/lightbox.js', array('jquery'), '1.0', true);
 
     // Localize script to pass AJAX URL
     wp_localize_script('custom-script', 'ajax_object', array('ajax_url' => admin_url('admin-ajax.php')));
@@ -45,6 +47,12 @@ function nathalie_mota_setup() {
     ));
 }
 add_action('after_setup_theme', 'nathalie_mota_setup');
+
+// Forcer l'utilisation de WebP via le thème
+function replace_images_with_webp($content) {
+    return preg_replace('/\.(jpg|jpeg|png)/i', '.webp', $content);
+}
+add_filter('the_content', 'replace_images_with_webp');
 
 // Fonction pour récupérer les photos apparentées
 function get_related_photos($post_id, $taxonomy, $limit = 2) {
@@ -112,7 +120,7 @@ function load_more_photos() {
         'posts_per_page' => 8,
         'orderby'        => 'date',
         'order'          => 'DESC',
-        'paged'          => $paged
+        'paged'          => $paged,
     );
 
     $gallery_query = new WP_Query($gallery_args);
@@ -122,6 +130,8 @@ function load_more_photos() {
             set_query_var('photo', get_post());
             get_template_part('assets/template_parts/photo_block');
         endwhile;
+    else :
+        echo ''; // Renvoie une réponse vide s'il n'y a plus de photos
     endif;
     wp_reset_postdata();
 
@@ -131,7 +141,6 @@ function load_more_photos() {
 // Ajout des actions AJAX pour les utilisateurs connectés et non connectés
 add_action('wp_ajax_load_more_photos', 'load_more_photos');
 add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
-
 
 // Add AJAX action for filtering and sorting photos
 function filter_and_sort_photos() {
@@ -143,7 +152,7 @@ function filter_and_sort_photos() {
         'post_type'      => 'photo',
         'posts_per_page' => 8,
         'orderby'        => 'date',
-        'order'          => $sort
+        'order'          => $sort,
     );
 
     // Add category filter if selected
@@ -151,7 +160,7 @@ function filter_and_sort_photos() {
         $gallery_args['tax_query'][] = array(
             'taxonomy' => 'categorie',
             'field'    => 'slug',
-            'terms'    => $category
+            'terms'    => $category,
         );
     }
 
@@ -160,7 +169,7 @@ function filter_and_sort_photos() {
         $gallery_args['tax_query'][] = array(
             'taxonomy' => 'format',
             'field'    => 'slug',
-            'terms'    => $format
+            'terms'    => $format,
         );
     }
 
@@ -194,18 +203,18 @@ function get_gallery_filter_options() {
     // Récupérer toutes les catégories, même sans posts (hide_empty = false)
     $categories = get_terms(array(
         'taxonomy' => 'categorie',
-        'hide_empty' => false
+        'hide_empty' => false,
     ));
 
     // Récupérer tous les formats, même sans posts (hide_empty = false)
     $formats = get_terms(array(
         'taxonomy' => 'format',
-        'hide_empty' => false
+        'hide_empty' => false,
     ));
 
     wp_send_json_success(array(
         'categories' => $categories,
-        'formats' => $formats
+        'formats' => $formats,
     ));
 }
 add_action('wp_ajax_get_gallery_filter_options', 'get_gallery_filter_options');

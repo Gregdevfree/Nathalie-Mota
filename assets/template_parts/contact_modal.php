@@ -1,4 +1,10 @@
-<!-- Template pour la modale de contact --> 
+<?php
+/**
+ * Template-part : contact_modal.php
+ * 
+ * @package Nathalie Mota
+ */
+?>
 
 <div id="contactModal" class="modal">
     <div class="modal-content">

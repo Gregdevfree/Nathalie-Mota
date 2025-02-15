@@ -1,4 +1,10 @@
-<!-- Template pour le header -->
+<?php
+/**
+ * Template name : header
+  *
+ * @package Nathalie Mota
+ */
+?>
 
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -6,7 +12,8 @@
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="profile" href="https://gmpg.org/xfn/11">
-    <title><?php wp_title('|', true, 'right'); ?></title>
+    <title aria-label="Titre de la page"><?php echo wp_get_document_title(); ?></title>
+
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
