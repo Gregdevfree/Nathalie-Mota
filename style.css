@@ -787,7 +787,7 @@ textarea.wpcf7-form-control {
   justify-content: space-between;
   margin-top: 5vh;
   max-width: 84vw;
-  gap: 20px;
+  gap: 30px;
   flex-wrap: nowrap;
 }
 
@@ -795,10 +795,9 @@ textarea.wpcf7-form-control {
   display: flex;
   flex-direction: column;
   width: 50%;
-  max-width: 564px;
-  padding-bottom: 37px;
+  max-width: 576px;
+  padding-bottom: 17px;
   margin-bottom: 6px;
-  border-bottom: 2px solid var(--primary-color);
   gap: 20px;
   text-transform: uppercase;
 }
@@ -840,6 +839,7 @@ textarea.wpcf7-form-control {
   width: 100%;
   height: 118px;
   border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 24px;
   gap: 20px;
   justify-content: space-between;
   align-items: center;
@@ -858,6 +858,8 @@ textarea.wpcf7-form-control {
 
 .photo-bottom-left-contact {
   justify-content: space-between;
+  border-top: 2px solid var(--primary-color);
+  padding-top: 30px;
 }
 
 .photo-bottom-left-contact p {
@@ -1318,8 +1320,9 @@ article.related-photo-block p {
   .photo-desc-pict {
     flex-direction: column;
     align-items: center;
+    border-bottom: 2px solid var(--primary-color);
   }
-
+  
   .photo-desc h2 {
     display: flex;
     font-size: 46px;
@@ -1375,6 +1378,7 @@ article.related-photo-block p {
     align-items: center;
     gap: 10px;
     padding: 15px 0;
+    border: none;
   }
 
   .photo-bottom-left-contact p {
