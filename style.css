@@ -295,7 +295,7 @@ p {
   border-radius: 8px !important;
   border: 1.3px solid #B8BBC2 !important;
   background: var(--secondary-color);
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins';
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
@@ -370,7 +370,7 @@ p {
 }
 
 .select2-container--default .select2-results__option {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins';
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
@@ -501,7 +501,7 @@ p {
   flex-direction: row;
   text-decoration: none;
   color: var(--secondary-color);
-  font-family: 'Space Mono', monospace;
+  font-family: 'Space Mono';
   font-size: 12px;
   font-weight: 400;
   padding: 5px 10px;
@@ -571,7 +571,7 @@ p {
   height: 50px;
   background-color: #D8D8D8;
   color: var(--primary-color);
-  font-family: 'Space Mono', monospace;
+  font-family: 'Space Mono';
   font-size: 12px;
   font-weight: 400;
   line-height: 17.77px;
@@ -809,7 +809,7 @@ textarea.wpcf7-form-control {
 
 .photo-desc p {
   display: flex;
-  font-family: 'Space Mono', monospace;
+  font-family: 'Space Mono';
   font-size: 14px;
   font-weight: 400;
   line-height: 20.73px;
@@ -1337,7 +1337,7 @@ article.related-photo-block p {
 
   .photo-desc p {
     display: flex;
-    font-family: 'Space Mono', monospace;
+    font-family: 'Space Mono';
     font-size: 14px;
     font-weight: 400;
     line-height: 20.73px;
